@@ -20,6 +20,8 @@ class BaseHighCharts(BaseChart):
         return json.dumps(column(self.get_data(), 0)[1:])
 
     def get_x_axis_title(self):
+        if self.context_data.has_key('x_axis_title'):
+            return self.context_data['x_axis_title']
         return self.get_data()[0][0]
 
 
@@ -40,7 +42,6 @@ class DateTimeLineChart(BaseHighCharts):
         for d in tmpdata[1:]:
             data.append([datetime_to_timestamp(d[0]) + tzoffset * 1000 , d[1] ])
 
-        print data
         series_names = data[0][1:]
         serieses = []
         for i, name in enumerate(series_names):
