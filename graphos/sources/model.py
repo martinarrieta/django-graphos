@@ -5,7 +5,7 @@ from .simple import SimpleDataSource
 def get_field_values(row, fields):
     data = []
     for field in fields:
-        data.append(getattr(row, field))
+        data.append(row.get(field))
     return data
 
 

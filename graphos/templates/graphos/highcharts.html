@@ -10,7 +10,15 @@ $(function () {
         },
 
         xAxis: {
+            {% if  chart.get_categories %}
             categories: {{ chart.get_categories|safe }},
+            {% endif %}
+            {% if chart.get_x_axis_type %}
+            type: "{{ chart.get_x_axis_type }}",
+            {% endif %}
+            {% if chart.get_x_axis_datetime_format %}
+            dateTimeLabelFormats: {{ chart.get_x_axis_datetime_format|safe }},
+            {% endif %}
             title: {
                 text: '{{ chart.get_x_axis_title }}'
             }
