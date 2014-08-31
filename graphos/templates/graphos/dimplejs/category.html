@@ -1,0 +1,13 @@
+{% extends "graphos/dimplejs/base.html" %}
+
+{% block dimplejs_chart_type %}
+
+  var data = {{ chart.get_data_json|safe }};
+
+  var chart = new dimple.chart(svg, data);
+  chart.setBounds(30, 10, {{ chart.width }} - 40, {{ chart.height }} - 50)
+  chart.addMeasureAxis("y", "{{ chart.get_y_axis_field|safe }}");
+  chart.addCategoryAxis("x", "{{ chart.get_x_axis_field|safe }}");
+  chart.addSeries(null, dimple.plot.bar);
+  chart.draw();
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "graphos/dimplejs/base.html" %}
+
+{% block dimplejs_chart_type %}
+  var data = {{ chart.get_data_json|safe }};
+
+  var chart = new dimple.chart(svg, data);
+  chart.setBounds(10, 10, {{ chart.width }} - 120, {{ chart.height }} - 20)
+  chart.addMeasureAxis("p", "{{ chart.get_y_axis_field_js }}");
+  chart.addSeries("{{ chart.get_x_axis_field_js }}", dimple.plot.pie);
+  chart.addLegend({{ chart.width }} - 120, 10, 90,{{ chart.width }} - 10 )
+  chart.draw();
+{% endblock %}

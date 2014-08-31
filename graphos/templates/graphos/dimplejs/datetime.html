@@ -1,0 +1,44 @@
+{% extends "graphos/dimplejs/base.html" %}
+
+{% block dimplejs_chart_type %}
+
+  var data = {{ chart.get_data_json|safe }};
+
+  var chart = new dimple.chart(svg, data);
+
+  console.log(chart)
+  chart.setBounds(50, 10, {{ chart.width }} - 60, {{ chart.height }} - 60)
+
+  var axisX = chart.addTimeAxis("x", "{{ chart.get_x_axis_field }}", "%Y-%m-%dT%H:%M:%S"); //2014-08-05T14:00:00-03:00
+  axisX.tickFormat = "%b %d %H:%M"
+  axisX.fontFamily = "Lucida Grande"
+  axisX.fontSize = "12px"
+  axisX.title = "{{ chart.get_x_axis_title }}";
+
+  console.log(axisX)
+  console.log(axisY)
+  var df = new Date(chart.data[chart.data.length - 1].{{ chart.get_x_axis_field }});
+  var de = new Date(chart.data[0].{{ chart.get_x_axis_field }});
+  var hours = Math.round(Math.abs(de - df) / 3600000);
+
+
+  if ( hours < 72 ) {
+    axisX.timePeriod = d3.time.hours;
+    axisX.timeInterval = Math.ceil(hours/5);
+  } else if ( hours < 744 ) {
+    axisX.timePeriod = d3.time.days;
+    axisX.timeInterval = Math.ceil(hours / (5*24));
+  } else {
+    axisX.timePeriod = d3.time.months;
+    axisX.timeInterval = Math.ceil(hours / (5*24*31));
+  }
+
+
+  var axisY = chart.addMeasureAxis("y", "{{ chart.get_y_axis_field }}");
+  axisY.title = "{{ chart.get_y_axis_title }}"
+  axisY.fontFamily = "Lucida Grande"
+  axisY.fontSize = "12px"
+
+  chart.addSeries(null, dimple.plot.{{ chart.get_chart_type }});
+  chart.draw();
+{% endblock %}

@@ -1,0 +1,8 @@
+<div id="chart_{{ chart.get_html_id }}">
+<script type="text/javascript">
+  var svg = dimple.newSvg("#chart_{{ chart.get_html_id }}", {{ chart.width }}, {{ chart.height }});
+
+  {% block dimplejs_chart_type %}{% endblock %}
+
+</script>
+</div>
